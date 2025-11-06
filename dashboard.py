@@ -20,7 +20,7 @@ try:
 
     # --- 3️⃣ Collega il foglio Google Sheets ---
     # Usa l'ID del file (dal link, la parte tra /d/ e /edit)
-    SHEET_ID = "Euro Area-ECB Forecast"
+    SHEET_ID = "1FxfkmF_3x-YzNWsCYYr1GsgHM1pq2tuPB-CWAIk-aPw"
     WORKSHEET = "ECB Excel Forecast"  # nome della linguetta in basso
 
     sheet = client.open_by_key(SHEET_ID).worksheet(WORKSHEET)
