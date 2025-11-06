@@ -1,24 +1,37 @@
 import streamlit as st
-import pandas as pd
 import gspread
 from google.oauth2.service_account import Credentials
+import pandas as pd
 
 st.title("🔗 Test Connessione Google Sheets")
 
-# 1️⃣ Autenticazione
-creds = Credentials.from_service_account_info(st.secrets["google"])
-client = gspread.authorize(creds)
+# --- 1️⃣ Definisci gli scope richiesti ---
+SCOPE = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/drive"
+]
 
-# 2️⃣ Apri il file Google Sheet
-SHEET_NAME = "Euro Area-ECB Forecast"   # cambia con il nome del tuo file
-WORKSHEET = "ECB Excel Forecast"        # cambia con il nome del tab dentro il file
+# --- 2️⃣ Autenticazione tramite secrets ---
+try:
+    creds = Credentials.from_service_account_info(
+        st.secrets["google"], scopes=SCOPE
+    )
+    client = gspread.authorize(creds)
 
-sheet = client.open(SHEET_NAME).worksheet(WORKSHEET)
+    # --- 3️⃣ Collega il foglio Google Sheets ---
+    # Usa l'ID del file (dal link, la parte tra /d/ e /edit)
+    SHEET_ID = "Euro Area-ECB Forecast"
+    WORKSHEET = "ECB Excel Forecast"  # nome della linguetta in basso
 
-# 3️⃣ Leggi i dati
-data = pd.DataFrame(sheet.get_all_records())
+    sheet = client.open_by_key(SHEET_ID).worksheet(WORKSHEET)
 
-# 4️⃣ Mostra i dati
-st.success("Connessione avvenuta con successo ✅")
-st.write("Ecco le prime righe del tuo foglio:")
-st.dataframe(data.head())
+    # --- 4️⃣ Legge i dati in un DataFrame ---
+    data = sheet.get_all_records()
+    df = pd.DataFrame(data)
+
+    st.success("✅ Connessione avvenuta con successo!")
+    st.dataframe(df.head())
+
+except Exception as e:
+    st.error("❌ Errore durante la connessione al foglio Google Sheets")
+    st.exception(e)
