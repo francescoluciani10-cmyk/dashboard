@@ -1,18 +1,24 @@
 import streamlit as st
 import pandas as pd
-import plotly.express as px
+import gspread
+from google.oauth2.service_account import Credentials
 
-# Titolo della dashboard
-st.title("📈 Market Dashboard (demo)")
+st.title("🔗 Test Connessione Google Sheets")
 
-# Dati di esempio
-data = pd.DataFrame({
-    "Date": pd.date_range("2024-01-01", periods=10),
-    "Price": [100, 102, 105, 103, 107, 108, 110, 112, 115, 118]
-})
+# 1️⃣ Autenticazione
+creds = Credentials.from_service_account_info(st.secrets["google"])
+client = gspread.authorize(creds)
 
-# Grafico
-fig = px.line(data, x="Date", y="Price", title="Andamento prezzi demo")
-st.plotly_chart(fig)
+# 2️⃣ Apri il file Google Sheet
+SHEET_NAME = "Euro Area-ECB Forecast"   # cambia con il nome del tuo file
+WORKSHEET = "ECB Excel Forecast"        # cambia con il nome del tab dentro il file
 
-st.metric("Rendimento", f"{(data['Price'].iloc[-1]/data['Price'].iloc[0]-1)*100:.2f}%")
+sheet = client.open(SHEET_NAME).worksheet(WORKSHEET)
+
+# 3️⃣ Leggi i dati
+data = pd.DataFrame(sheet.get_all_records())
+
+# 4️⃣ Mostra i dati
+st.success("Connessione avvenuta con successo ✅")
+st.write("Ecco le prime righe del tuo foglio:")
+st.dataframe(data.head())
