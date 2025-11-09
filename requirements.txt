@@ -1,5 +1,10 @@
 streamlit
 gspread
 pandas
-google-auth
-plotly
+numpy
+matplotlib
+seaborn
+yfinance
+openpyxl
+statsmodels
+arch

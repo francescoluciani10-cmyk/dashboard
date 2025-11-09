@@ -1,0 +1,7 @@
+# Esclude file sensibili
+google.json
+
+# Esclude file temporanei
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
