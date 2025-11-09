@@ -1,28 +1,24 @@
-<<<<<<< HEAD
-=======
+# dashboard.py
+
 import streamlit as st
->>>>>>> a8b8238f (Prima versione)
 import gspread
 from google.oauth2.service_account import Credentials
 import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
-<<<<<<< HEAD
 # === CONFIGURAZIONE ===
-SHEET_ID = "1FxfkmF_3x-YzNWsCYYr1GsgHM1pq2tuPB-CWAIk-aPw"
-WORKSHEET = "Europe Countries GDP"  # cambia con il tab che vuoi
-JSON_FILE = "google.json"
+SHEET_ID = "1FxfkmF_3x-YzNWsCYYr1GsgHM1pq2tuPB-CWAIk-aPw"  # ID del Google Sheet
+WORKSHEET = "Europe Countries GDP"  # Nome del tab che vuoi leggere
+JSON_FILE = "google.json"  # Chiave JSON del Service Account (locale e mai pubblica)
 
-# === CONNESSIONE ===
-=======
-st.title("🔗 Test Connessione Google Sheets")
-
-# --- 1️⃣ Definisci gli scope richiesti ---
->>>>>>> a8b8238f (Prima versione)
+# === CONNESSIONE A GOOGLE SHEETS ===
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
 ]
-<<<<<<< HEAD
+
 creds = Credentials.from_service_account_file(JSON_FILE, scopes=SCOPE)
 client = gspread.authorize(creds)
 
@@ -31,32 +27,25 @@ sheet = client.open_by_key(SHEET_ID).worksheet(WORKSHEET)
 data = sheet.get_all_records()
 df = pd.DataFrame(data)
 
-print("✅ Connessione riuscita! Prime righe:")
-display(df.head())
-=======
+# === STREAMLIT ===
+st.title("Dashboard Market Data")
+st.write("Prime righe del dataset:")
+st.dataframe(df.head())
 
-# --- 2️⃣ Autenticazione tramite secrets ---
-try:
-    creds = Credentials.from_service_account_info(
-        st.secrets["google"], scopes=SCOPE
-    )
-    client = gspread.authorize(creds)
+# === ANALISI BASE ===
+st.write("Statistiche descrittive:")
+st.dataframe(df.describe())
 
-    # --- 3️⃣ Collega il foglio Google Sheets ---
-    # Usa l'ID del file (dal link, la parte tra /d/ e /edit)
-    SHEET_ID = "1FxfkmF_3x-YzNWsCYYr1GsgHM1pq2tuPB-CWAIk-aPw"
-    WORKSHEET = "Europe Countries GDP Long Format"  # nome della linguetta in basso
+# Esempio grafico: distribuzione di una colonna numerica (modifica "Price" con la tua colonna)
+if "Price" in df.columns:
+    st.write("Distribuzione dei prezzi:")
+    fig, ax = plt.subplots()
+    sns.histplot(df["Price"], kde=True, ax=ax)
+    st.pyplot(fig)
 
-    sheet = client.open_by_key(SHEET_ID).worksheet(WORKSHEET)
-
-    # --- 4️⃣ Legge i dati in un DataFrame ---
-    data = sheet.get_all_records()
-    df = pd.DataFrame(data)
-
-    st.success("✅ Connessione avvenuta con successo!")
+# Esempio di calcolo rendimenti giornalieri (modifica "Price")
+if "Price" in df.columns:
+    df["Return"] = df["Price"].pct_change()
+    st.write("Prime righe con rendimenti calcolati:")
     st.dataframe(df.head())
 
-except Exception as e:
-    st.error("❌ Errore durante la connessione al foglio Google Sheets")
-    st.exception(e)
->>>>>>> a8b8238f (Prima versione)
