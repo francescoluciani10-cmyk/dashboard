@@ -11,87 +11,114 @@ GEOS = ["EA20","AT","BE","HR","CY","EE","FI","FR","DE","GR","IE","IT","LV","LT",
 
 # Indicatori da scaricare: (dataset, parametri, frequenza)
 INDICATORS = {
-    "HICP": ("prc_hicp_midx", {"unit": "I15", "coicop": "CP00", "freq": "M"}, "M"),
-    "GDP": ("namq_10_gdp", {"freq": "Q", "na_item": "B1GQ", "unit": "CLV20_MNAC", "s_adj": "NSA"}, "Q"),
-    "Unemployment": ("une_rt_m", {"sex": "T", "age": "TOTAL", "unit": "PC_ACT", "freq": "M"}, "M"),
-    "IndustrialProduction": ("sts_inpr_m", {"indic_bt": "PRD", "s_adj": "CA", "nace_r2": "B-D", "freq": "M", "unit": "I15"}, "M"),
-    "RetailSales": ("sts_trtu_m", {"indic_bt": "VOL_SLS", "s_adj": "SCA", "nace_r2": "G", "freq": "M", "unit": "PCH_PRE"}, "M")
+    # GDP and components (quarterly)
+     "GDP": ("namq_10_gdp", {"freq": "Q", "na_item": "B1GQ", "unit": "CLV20_MNAC", "s_adj": "NSA"}, "Q"),
+     "GDP_HH_CONSUMPTION": ("namq_10_gdp", {"freq": "Q", "na_item": "P31_S14", "unit": "CLV20_MNAC", "s_adj": "NSA"}, "Q"),
+     "GDP_GVT_CONSUMPTION": ("namq_10_gdp", {"freq": "Q", "na_item": "P3_S13", "unit": "CLV20_MNAC", "s_adj": "NSA"}, "Q"),
+     "GDP_Investments": ("namq_10_gdp", {"freq": "Q", "na_item": "P51G", "unit": "CLV_I20", "s_adj": "NSA"}, "Q"),
+     "GDP_ChangeInventories": ("namq_10_gdp", {"freq": "Q", "na_item": "P52_P53", "unit": "CP_MEUR", "s_adj": "NSA"}, "Q"),
+     "GDP_Export": ("namq_10_gdp", {"freq": "Q", "na_item": "P6", "unit": "CLV20_MNAC", "s_adj": "NSA"}, "Q"), 
+     "GDP_IMPORT": ("namq_10_gdp", {"freq": "Q", "na_item": "P7", "unit": "CLV20_MNAC", "s_adj": "NSA"}, "Q"),
+ 
+#HICP and components (monthly)
+     "HICP": ("prc_hicp_midx", {"unit": "I15", "coicop": "CP00", "freq": "M"}, "M"),
+     "HICP_Core": ("prc_hicp_midx", {"unit": "I15", "coicop": "TOT_X_NRG_FOOD", "freq": "M"}, "M"),
+     "HICP_Food": ("prc_hicp_midx", {"unit": "I15", "coicop": "CP01", "freq": "M"}, "M"),
+     "HICP_Energy": ("prc_hicp_midx", {"unit": "I15", "coicop": "NRG", "freq": "M"}, "M"),
+     "HICP_NEIG": ("prc_hicp_midx", {"unit": "I15", "coicop": "IGD_NNRG", "freq": "M"}, "M"),
+     "HICP_Services": ("prc_hicp_midx", {"unit": "I15", "coicop": "SERV", "freq": "M"}, "M"),
+
+# Deficit/Surplus % PIL (annuale)
+    "Deficit_GDP": ("gov_10dd_edpt1", {"na_item": "B9", "sector":"S13", "freq": "A","unit": "PC_GDP"}, "A"),
+    "Debt_GDP": ("gov_10dd_edpt1", {"na_item": "GD", "sector":"S13", "freq": "A","unit": "PC_GDP"}, "A"),
+    "CurrentAccountBalance_GDP": ("bop_gdp6_q", {"bop_item":"CA", "partner": "WRL_REST", "S_ADJ":"NSA", "stk_flow": "BAL","freq":"Q", "unit": "PC_GDP"}, "Q"),
+
+#Sentiment (monthly)
+ "ESI": ("teibs010", {"indic": "BS-ESI-I", "s_adj": "SA", "freq": "M"}, "M"),
+ "Construction_Confidence": ("teibs020", {"indic": "BS-CCI-BAL", "s_adj": "SA", "freq": "M"}, "M"),
+ "Industrial_Confidence": ("teibs020", {"indic": "BS-ICI-BAL", "s_adj": "SA", "freq": "M"}, "M"),
+ "Retail_Confidence": ("teibs020", {"indic": "BS-RCI-BAL", "s_adj": "SA", "freq": "M"}, "M"),
+ "Consumer_Confidence": ("teibs020", {"indic": "BS-CSMCI-BAL", "s_adj": "SA", "freq": "M"}, "M"),
+"Services_Confidence": ("teibs020", {"indic": "BS-SCI-BAL", "s_adj": "SA", "freq": "M"}, "M"),
+
+#Industrial Production (monthly)
+ "IndustrialProduction": ("sts_inpr_m", {"indic_bt": "PRD", "s_adj": "SCA", "nace_r2": "B-D", "freq": "M", "unit": "I15"}, "M"),
+ "IndustrialProduction_IntermediateGoods": ("sts_inpr_m", {"indic_bt": "PRD", "s_adj": "SCA", "nace_r2": "MIG_ING", "freq": "M", "unit": "I15"}, "M"),
+ "IndustrialProduction_EnergyexElectricity": ("sts_inpr_m", {"indic_bt": "PRD", "s_adj": "SCA", "nace_r2": "MIG_NRG_X_E", "freq": "M", "unit": "I15"}, "M"),
+ "IndustrialProduction_CapitalGoods": ("sts_inpr_m", {"indic_bt": "PRD", "s_adj": "SCA", "nace_r2": "MIG_CAG", "freq": "M", "unit": "I15"}, "M"),
+ "IndustrialProduction_DurableConsumerGoods": ("sts_inpr_m", {"indic_bt": "PRD", "s_adj": "SCA", "nace_r2": "MIG_DCOG", "freq": "M", "unit": "I15"}, "M"),
+ "IndustrialProduction_NonDurableConsumerGoods": ("sts_inpr_m", {"indic_bt": "PRD", "s_adj": "SCA", "nace_r2": "MIG_NDCOG", "freq": "M", "unit": "I15"}, "M"),
+
+# Retail Sales (monthly)
+ "RetailSales": ("sts_trtu_m", {"indic_bt": "VOL_SLS", "s_adj": "SCA", "nace_r2": "G47", "freq": "M", "unit": "I15"}, "M"),
+ "RetailSales_Food": ("sts_trtu_m", {"indic_bt": "VOL_SLS", "s_adj": "SCA", "nace_r2": "G47_FOOD", "freq": "M", "unit": "I15"}, "M"),
+ "RetailSales_exFood": ("sts_trtu_m", {"indic_bt": "VOL_SLS", "s_adj": "SCA", "nace_r2": "G47_NFOOD", "freq": "M", "unit": "I15"}, "M"),
+
+#Unemployment rate (monthly)    
+     "Unemployment": ("une_rt_m", {"sex": "T", "age": "TOTAL", "unit": "PC_ACT", "freq": "M"}, "M"),
+
+
 }
 
-
 def scarica_indicatore(dataset, params, freq, nome, geo):
-    """Scarica un indicatore da Eurostat e calcola le variazioni percentuali"""
-    
-    # Chiamata API
+    """Scarica un indicatore da Eurostat e calcola variazioni percentuali"""
     try:
-        r = requests.get(f"{BASE_URL}/{dataset}", 
-                        params={**params, "geo": geo, "format": "JSON"}, 
-                        timeout=30)
-        if r.status_code != 200:
-            print(f"✗ Errore {r.status_code} per {nome} {geo}")
-            return pd.DataFrame()
+        r = requests.get(f"{BASE_URL}/{dataset}", params={**params, "geo": geo, "format": "JSON"}, timeout=30)
+        r.raise_for_status()
         data = r.json()
     except Exception as e:
-        print(f"✗ Errore connessione {nome} {geo}: {e}")
+        print(f"✗ Errore {nome} {geo}: {e}")
         return pd.DataFrame()
-    
-    # Verifica che ci siano dati
+
     if "dimension" not in data or "time" not in data["dimension"] or "value" not in data:
         print(f"✗ Nessun dato per {nome} {geo}")
         return pd.DataFrame()
-    
-    # Estrai le date e i valori
+
     time_idx = data["dimension"]["time"]["category"]["index"]
-    idx_to_date = {v: k for k, v in time_idx.items()}  # Mappa indice → data
-    
-    # Crea lista di osservazioni
+    idx_to_date = {v: k for k, v in time_idx.items()}
+
     obs = [{"date": idx_to_date[int(k)], "value": v, "geo": geo, "group": nome}
            for k, v in data["value"].items() if int(k) in idx_to_date]
-    
+
     df = pd.DataFrame(obs)
     if df.empty:
         return df
-    
-    # Converti le date
+
+    # Conversione date
     if freq == "M":
         df["date"] = pd.to_datetime(df["date"], format="%Y-%m", errors="coerce")
-    else:  # freq == "Q"
+    elif freq == "Q":
         df["date"] = pd.PeriodIndex(df["date"], freq="Q").to_timestamp()
-    
+    elif freq == "A":
+        df["date"] = pd.to_datetime(df["date"], format="%Y", errors="coerce")
+
     df = df.dropna(subset=["date"]).sort_values("date").reset_index(drop=True)
     df["value"] = pd.to_numeric(df["value"], errors="coerce")
     df = df.dropna(subset=["value"])
-    
-    # Calcola variazioni percentuali
+
+    # Calcolo variazioni
     if freq == "M":
-        df["mom_pct"] = df.groupby("geo")["value"].pct_change(1) * 100   # Mensile
-        df["yoy_pct"] = df.groupby("geo")["value"].pct_change(12) * 100  # Annuale
-    else:  # freq == "Q"
-        df["qoq_pct"] = df.groupby("geo")["value"].pct_change(1) * 100   # Trimestrale
-        df["yoy_pct"] = df.groupby("geo")["value"].pct_change(4) * 100   # Annuale
-    
+        df["mom_pct"] = df.groupby("geo")["value"].pct_change(1) * 100
+        df["yoy_pct"] = df.groupby("geo")["value"].pct_change(12) * 100
+    elif freq == "Q":
+        df["qoq_pct"] = df.groupby("geo")["value"].pct_change(1) * 100
+        df["yoy_pct"] = df.groupby("geo")["value"].pct_change(4) * 100
+    elif freq == "A":
+        df["yoy_pct"] = df.groupby("geo")["value"].pct_change(1) * 100
+
     print(f"✓ {nome} {geo}")
     return df
 
-
 def main():
-    """Scarica tutti gli indicatori e salva in Excel"""
-    
     print("Scaricamento da Eurostat...\n")
     risultati = {}
-    
-    # Per ogni indicatore
     for nome, (dataset, params, freq) in INDICATORS.items():
         print(f"{nome}:")
         dati = []
-        
-        # Scarica per ogni paese
         for geo in GEOS:
             df = scarica_indicatore(dataset, params, freq, nome, geo)
             if not df.empty:
                 dati.append(df)
-        
-        # Unisci tutti i paesi
         if dati:
             risultati[nome] = pd.concat(dati, ignore_index=True)
         print()
@@ -102,13 +129,11 @@ def main():
         with pd.ExcelWriter(file, engine="openpyxl") as writer:
             for nome, df in risultati.items():
                 df.to_excel(writer, sheet_name=nome, index=False)
-        
         print(f"\n✓ File creato: {file}")
         print(f"  Fogli: {', '.join(risultati.keys())}")
         print(f"  Percorso: {os.path.abspath(file)}")
     else:
         print("\n✗ Nessun dato scaricato")
-
 
 if __name__ == "__main__":
     main()

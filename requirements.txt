@@ -8,3 +8,5 @@ yfinance
 openpyxl
 statsmodels
 arch
+requests
+os
