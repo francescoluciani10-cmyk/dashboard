@@ -2,6 +2,7 @@
 import pandas as pd
 from sdmx_request import download_SDMX_data  # modulo SDMX
 from transformations import pivot_long_to_wide  # pivot helper
+import matplotlib.pyplot as plt
 
 def main():
     # ==============================
@@ -42,7 +43,7 @@ def main():
    
     
     # ==== Grafico: colonne per GDP_ITA e GDP_FR dal 2010 ad oggi ====
-    import matplotlib.pyplot as plt
+  
 
     df_plot = wide_data.copy()
     # Assumiamo che 'date' sia una colonna; altrimenti adattare (es. index)
@@ -67,7 +68,6 @@ def main():
             ax.set_title('GDP BIG4 (2010 - oggi)')
             plt.xticks(rotation=45)
             plt.tight_layout()
-            output_img = "gdp_ita_fr_bar.png"
             plt.show()
     
     # ==============================
