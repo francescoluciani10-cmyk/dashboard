@@ -73,12 +73,12 @@ def main():
     # ==============================
     # 4) SALVA RISULTATI
     # ==============================
-    output_file = "report_data_ready.xlsx"
-    try:
-        wide_data.to_excel(output_file, index=False)
-        print(f"[INFO] Report pronto: {output_file}")
-    except PermissionError:
-        print(f"[ERRORE] Non posso scrivere il file '{output_file}'. Chiudi eventuali copie aperte.")
+  #  output_file = "report_data_ready.xlsx"
+  #  try:
+  #      wide_data.to_excel(output_file, index=False)
+  #      print(f"[INFO] Report pronto: {output_file}")
+  #  except PermissionError:
+  #      print(f"[ERRORE] Non posso scrivere il file '{output_file}'. Chiudi eventuali copie aperte.")
 
 if __name__ == "__main__":
     main()

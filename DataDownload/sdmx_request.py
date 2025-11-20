@@ -150,13 +150,13 @@ def download_SDMX_data(use_cache=True):
 # ==============================
 # Funzione di salvataggio Excel
 # ==============================
-def save_to_excel(results, filename="macro_indicators.xlsx"):
-    if not results:
-        return None
-    with pd.ExcelWriter(filename, engine="openpyxl") as writer:
-        for nome, df in results.items():
-            df.to_excel(writer, sheet_name=nome[:31], index=False)
-    return os.path.abspath(filename)
+# def save_to_excel(results, filename="macro_indicators.xlsx"):
+#    if not results:
+#        return None
+#    with pd.ExcelWriter(filename, engine="openpyxl") as writer:
+#        for nome, df in results.items():
+#            df.to_excel(writer, sheet_name=nome[:31], index=False)
+#    return os.path.abspath(filename)
 
 # ==============================
 # Esecuzione diretta
@@ -164,5 +164,5 @@ def save_to_excel(results, filename="macro_indicators.xlsx"):
 if __name__ == "__main__":
     print("[INFO] Scaricando tutti gli indicatori...")
     data = download_SDMX_data()
-    path = save_to_excel(data)
-    print("[INFO] Dati salvati in:", path)
+#    path = save_to_excel(data)
+#   print("[INFO] Dati salvati in:", path)
